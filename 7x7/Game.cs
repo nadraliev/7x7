@@ -22,7 +22,7 @@ namespace _7x7
 
         public const int MAX_COUNT = 49;
 
-
+        public int deletedRows = 0;
         
         public Game()
         {
@@ -195,10 +195,9 @@ namespace _7x7
         {
             for (int i = 0; i < forDelete.Count; i++)
             {
-                Console.WriteLine(forDelete[i] + " " + squares[forDelete[i]]);
                 squares[forDelete[i]] = null;
-                
             }
+            deletedRows++;
         }
 
         

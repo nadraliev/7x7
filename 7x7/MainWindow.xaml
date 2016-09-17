@@ -108,6 +108,8 @@
             <Button x:Name="button47" Style="{StaticResource Square}"/>
             <Button x:Name="button48" Style="{StaticResource Square}"/>
         </WrapPanel>
+        <Label x:Name="label" Content="Score" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
+        <Label x:Name="score" Content="0" Grid.Column="2" HorizontalAlignment="Left" Margin="84,10,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
 
 
 

@@ -73,6 +73,8 @@ namespace _7x7
                         selectedButton = null;
                         RefreshField();
                         DeleteCrosses();
+
+                        score.Content = newGame.deletedRows.ToString();
                     }
 
                     
