@@ -74,8 +74,7 @@ namespace _7x7
                         if (newGame.GameOver)   //check on game over
                         {
                             MessageBox.Show("Game over");
-                            newGame = new Game();   //start new game if game over
-                            newGame.GenerateNewSquares();
+                            StartNewGame(); //start new game if game over
                         }
                         RefreshField();
                     }
@@ -140,6 +139,21 @@ namespace _7x7
                 ((Button)this.FindName("button" + i)).Content = null;   //delete cross from button
             }
         }
-        
+
+        private void StartNewGame()
+        {
+            newGame = new Game();   
+            newGame.GenerateNewSquares();
+            score.Content = newGame.Score.ToString(); //update score label
+            level.Content = newGame.level.ToString();   //update level label
+            toNextLevel.Content = newGame.LinesToGoToNextLevel.ToString();
+            coming.Content = newGame.howMuchGenerate.ToString();
+            RefreshField();
+        }
+
+        private void startNewGame_Click(object sender, RoutedEventArgs e)
+        {
+            StartNewGame();
+        }
     }
 }

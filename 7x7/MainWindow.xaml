@@ -116,6 +116,7 @@
         <Label x:Name="toNextLevel" Content="40" Grid.Column="1" HorizontalAlignment="Left" Margin="279,8,0,0" VerticalAlignment="Top" Opacity="0.5" Height="35" Grid.RowSpan="2"/>
         <Label x:Name="label3" Content="Coming" Grid.Column="2" HorizontalAlignment="Left" Margin="10,57,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
         <Label x:Name="coming" Content="3" Grid.Column="2" HorizontalAlignment="Left" Margin="108,57,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
+        <Label x:Name="startNewGame" Content="Start new game" MouseLeftButtonUp="startNewGame_Click"  Grid.Column="2" HorizontalAlignment="Left" Margin="10,368,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140" FontSize="18.667"/>
 
 
 
