@@ -123,7 +123,7 @@ namespace _7x7
             List<int> offsets = new List<int>() { 7, -7};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
+                while (cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !column.Contains(cursor + offsets[i]))
                 {
                     cursor = cursor + offsets[i];
                     column.Add(cursor);
@@ -139,7 +139,7 @@ namespace _7x7
             offsets = new List<int>() { 1, -1};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (!isNewLine(cursor, offsets[i]) && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
+                while (!isNewLine(cursor, offsets[i]) && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !row.Contains(cursor + offsets[i]))
                 {
                     cursor = cursor + offsets[i];
                     row.Add(cursor);
@@ -155,7 +155,7 @@ namespace _7x7
             offsets = new List<int>() {8, -8};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
+                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !rightDiagonal.Contains(cursor + offsets[i]))
                 {
                     cursor = cursor + offsets[i];
                     rightDiagonal.Add(cursor);
@@ -171,7 +171,7 @@ namespace _7x7
             offsets = new List<int>() {6, -6 };
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
+                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !leftDiagonal.Contains(cursor + offsets[i]))
                 {
                     cursor = cursor + offsets[i];
                     leftDiagonal.Add(cursor);
