@@ -66,12 +66,16 @@ namespace _7x7
                         selectedButton = null;
                         DeleteCrosses();
 
-                        score.Content = newGame.deletedRows.ToString(); //update score label
+                        score.Content = newGame.Score.ToString(); //update score label
+                        level.Content = newGame.level.ToString();   //update level label
+                        toNextLevel.Content = newGame.LinesToGoToNextLevel.ToString();
+                        coming.Content = newGame.howMuchGenerate.ToString();
 
                         if (newGame.GameOver)   //check on game over
                         {
                             MessageBox.Show("Game over");
                             newGame = new Game();   //start new game if game over
+                            newGame.GenerateNewSquares();
                         }
                         RefreshField();
                     }

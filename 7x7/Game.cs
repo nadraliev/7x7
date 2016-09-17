@@ -21,10 +21,20 @@ namespace _7x7
 
 
         public const int MAX_COUNT = 49;
+        public int level = 1;
+        public int LinesToGoToNextLevel { get { return forNextLevel - deletedRows; } }
+        public int howMuchGenerate = 3;
 
-        public int deletedRows = 0; //score
-        private int howMuchGenerate = 3;
+        private int deletedRows = 0;
+        private int forNextLevel = 40;
 
+        public int Score { get { return deletedRows; }
+            private set
+            {
+                deletedRows = value;
+                if (deletedRows > forNextLevel-1)
+                    RaiseDifficulty();
+            } }
         public bool GameOver { get
             {
                 return countNullSquares() == 0; //game over if no empty squares
@@ -33,9 +43,17 @@ namespace _7x7
         public Game()
         {
             squares = new string[MAX_COUNT];
-        } 
+        }
 
-        public void GenerateNewSquares()
+        private void RaiseDifficulty()
+        {
+            howMuchGenerate++;
+            if (forNextLevel > 10)
+                forNextLevel += forNextLevel-5;
+            level++;
+        }
+
+    public void GenerateNewSquares()
         {
             Random random = new Random();
             int generated = 0;
@@ -145,6 +163,7 @@ namespace _7x7
                 {
                     column.Add(movedCursor);
                     cursor = movedCursor;
+                    movedCursor = cursor + offsets[i];
                 }
 
                 cursor = square;
@@ -165,6 +184,7 @@ namespace _7x7
                 {
                     row.Add(movedCursor);
                     cursor = movedCursor;
+                    movedCursor = cursor + offsets[i];
                 }
 
                 cursor = square;
@@ -185,6 +205,7 @@ namespace _7x7
                 {
                     rightDiagonal.Add(movedCursor);
                     cursor = movedCursor;
+                    movedCursor = cursor + offsets[i];
                 }
 
                 cursor = square;
@@ -205,6 +226,7 @@ namespace _7x7
                 {
                     leftDiagonal.Add(movedCursor);
                     cursor = movedCursor;
+                    movedCursor = cursor + offsets[i];
                 }
 
                 cursor = square;
@@ -227,7 +249,7 @@ namespace _7x7
             {
                 squares[forDelete[i]] = null;
             }
-            deletedRows++;
+            Score++;
         }
 
         

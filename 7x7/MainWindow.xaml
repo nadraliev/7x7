@@ -27,7 +27,7 @@
                     <ControlTemplate TargetType="Button">
                         <Border Name="border" Background="{TemplateBinding Background}">
                             <ContentPresenter>
-                                
+
                             </ContentPresenter>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -110,6 +110,12 @@
         </WrapPanel>
         <Label x:Name="label" Content="Score" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
         <Label x:Name="score" Content="0" Grid.Column="2" HorizontalAlignment="Left" Margin="84,10,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
+        <Label x:Name="label1" Content="Level" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="44" Width="68" FontSize="24" Grid.RowSpan="2" Margin="0,-1,0,0"/>
+        <Label x:Name="level" Content="1" Grid.Column="1" HorizontalAlignment="Left" Margin="73,-1,0,0" VerticalAlignment="Top" FontSize="24" Height="45" Grid.RowSpan="2"/>
+        <Label x:Name="label2" Content="lines to next level" Grid.Column="1" HorizontalAlignment="Right" Margin="0,8,0,0" VerticalAlignment="Top" Width="102" Opacity="0.5" Height="36" Grid.RowSpan="2"/>
+        <Label x:Name="toNextLevel" Content="40" Grid.Column="1" HorizontalAlignment="Left" Margin="279,8,0,0" VerticalAlignment="Top" Opacity="0.5" Height="35" Grid.RowSpan="2"/>
+        <Label x:Name="label3" Content="Coming" Grid.Column="2" HorizontalAlignment="Left" Margin="10,57,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
+        <Label x:Name="coming" Content="3" Grid.Column="2" HorizontalAlignment="Left" Margin="108,57,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="24"/>
 
 
 
