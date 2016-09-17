@@ -5,8 +5,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_7x7"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="600"
+        ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Window.Resources>
+
+        <Image x:Key="MyImage" Source="Resources/cross.png"/>
+
+        <Style x:Key="Square" TargetType="Button">
+            <Setter Property="Background" Value="#FFDDDDDD"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="52"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="5,5,0,0"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.5" TargetName="border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="404"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="404"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+
+        <WrapPanel x:Name="gameField" Button.Click="WrapPanel_Click" Grid.Column="1" HorizontalAlignment="Left" Height="404" Grid.Row="1" VerticalAlignment="Top" Width="404">
+            <Button x:Name="button0" Style="{StaticResource Square}" Content="{StaticResource MyImage}"/>
+            <Button x:Name="button1" Style="{StaticResource Square}"/>
+            <Button x:Name="button2" Style="{StaticResource Square}"/>
+            <Button x:Name="button3" Style="{StaticResource Square}"/>
+            <Button x:Name="button4" Style="{StaticResource Square}"/>
+            <Button x:Name="button5" Style="{StaticResource Square}"/>
+            <Button x:Name="button6" Style="{StaticResource Square}"/>
+            <Button x:Name="button7" Style="{StaticResource Square}"/>
+            <Button x:Name="button8" Style="{StaticResource Square}"/>
+            <Button x:Name="button9" Style="{StaticResource Square}"/>
+            <Button x:Name="button10" Style="{StaticResource Square}"/>
+            <Button x:Name="button11" Style="{StaticResource Square}"/>
+            <Button x:Name="button12" Style="{StaticResource Square}"/>
+            <Button x:Name="button13" Style="{StaticResource Square}"/>
+            <Button x:Name="button14" Style="{StaticResource Square}"/>
+            <Button x:Name="button15" Style="{StaticResource Square}"/>
+            <Button x:Name="button16" Style="{StaticResource Square}"/>
+            <Button x:Name="button17" Style="{StaticResource Square}"/>
+            <Button x:Name="button18" Style="{StaticResource Square}"/>
+            <Button x:Name="button19" Style="{StaticResource Square}"/>
+            <Button x:Name="button20" Style="{StaticResource Square}"/>
+            <Button x:Name="button21" Style="{StaticResource Square}"/>
+            <Button x:Name="button22" Style="{StaticResource Square}"/>
+            <Button x:Name="button23" Style="{StaticResource Square}"/>
+            <Button x:Name="button24" Style="{StaticResource Square}"/>
+            <Button x:Name="button25" Style="{StaticResource Square}"/>
+            <Button x:Name="button26" Style="{StaticResource Square}"/>
+            <Button x:Name="button27" Style="{StaticResource Square}"/>
+            <Button x:Name="button28" Style="{StaticResource Square}"/>
+            <Button x:Name="button29" Style="{StaticResource Square}"/>
+            <Button x:Name="button30" Style="{StaticResource Square}"/>
+            <Button x:Name="button31" Style="{StaticResource Square}"/>
+            <Button x:Name="button32" Style="{StaticResource Square}"/>
+            <Button x:Name="button33" Style="{StaticResource Square}"/>
+            <Button x:Name="button34" Style="{StaticResource Square}"/>
+            <Button x:Name="button35" Style="{StaticResource Square}"/>
+            <Button x:Name="button36" Style="{StaticResource Square}"/>
+            <Button x:Name="button37" Style="{StaticResource Square}"/>
+            <Button x:Name="button38" Style="{StaticResource Square}"/>
+            <Button x:Name="button39" Style="{StaticResource Square}"/>
+            <Button x:Name="button40" Style="{StaticResource Square}"/>
+            <Button x:Name="button41" Style="{StaticResource Square}"/>
+            <Button x:Name="button42" Style="{StaticResource Square}"/>
+            <Button x:Name="button43" Style="{StaticResource Square}"/>
+            <Button x:Name="button44" Style="{StaticResource Square}"/>
+            <Button x:Name="button45" Style="{StaticResource Square}"/>
+            <Button x:Name="button46" Style="{StaticResource Square}"/>
+            <Button x:Name="button47" Style="{StaticResource Square}"/>
+            <Button x:Name="button48" Style="{StaticResource Square}"/>
+        </WrapPanel>
+
+
+
     </Grid>
 </Window>
