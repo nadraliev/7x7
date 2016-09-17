@@ -25,7 +25,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Name="border" Background="{TemplateBinding Background}"/>
+                        <Border Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter>
+                                
+                            </ContentPresenter>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Opacity" Value="0.5" TargetName="border"/>
@@ -54,7 +58,7 @@
 
 
         <WrapPanel x:Name="gameField" Button.Click="WrapPanel_Click" Grid.Column="1" HorizontalAlignment="Left" Height="404" Grid.Row="1" VerticalAlignment="Top" Width="404">
-            <Button x:Name="button0" Style="{StaticResource Square}" Content="{StaticResource MyImage}"/>
+            <Button x:Name="button0" Style="{StaticResource Square}"/>
             <Button x:Name="button1" Style="{StaticResource Square}"/>
             <Button x:Name="button2" Style="{StaticResource Square}"/>
             <Button x:Name="button3" Style="{StaticResource Square}"/>

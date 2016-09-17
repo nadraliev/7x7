@@ -54,13 +54,22 @@ namespace _7x7
             int[] offsets = new int[4] { -7, 1, 7, -1 };
             for (int i = 0; i < offsets.Length; i++)
             {
-                if (square + offsets[i] >= 0 && square + offsets[i] < 49 &&squares[square + offsets[i]] == null && !result.Contains(square + offsets[i]))
+                int newSquare = square + offsets[i];
+                if (newSquare >= 0 && newSquare < 49 && squares[newSquare] == null && !result.Contains(newSquare))
                 {
-                    result.Add(square + offsets[i]);
-                    findAvailableSquares(square + offsets[i], ref result);
+                    if (!((i == 1 || i == 3) && isNewLine(square, offsets[i]))) //do not go to new line if we're moving left|right
+                    {
+                        result.Add(newSquare);
+                        findAvailableSquares(newSquare, ref result);
+                    }
                 }
 
             }
+        }
+
+        private bool isNewLine(int square, int offset)
+        {
+            return square / 7 != (square + offset) / 7;
         }
 
         public List<int> findNotAvailableSquares(int square)
@@ -69,7 +78,7 @@ namespace _7x7
             List<int> availableSquares = new List<int>();
             findAvailableSquares(square, ref availableSquares);
             for (int i = 0; i < MAX_COUNT; i++)
-                if (!availableSquares.Contains(i))
+                if (!availableSquares.Contains(i) && squares[i] == null)
                     result.Add(i);
             return result;
         }

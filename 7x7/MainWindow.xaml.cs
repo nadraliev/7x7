@@ -26,10 +26,13 @@ namespace _7x7
 
         Button selectedButton;  //currently selected button
 
+        List<int> notAvailableSquares;
+
         public MainWindow()
         {
             InitializeComponent();
             newGame = new Game();
+            notAvailableSquares = new List<int>();
         }
 
 
@@ -43,11 +46,14 @@ namespace _7x7
                     {
                         selectedButton = clickedButton;
 
-                        List<int> notAvailableSquares = newGame.findNotAvailableSquares(int.Parse(selectedButton.Tag.ToString()));
+                        notAvailableSquares = newGame.findNotAvailableSquares(int.Parse(selectedButton.Tag.ToString()));
                         for (int i = 0; i < notAvailableSquares.Count; i++)
                         {
-                            
-                            ((Button)this.FindName("button" + i)).Content = "{StaticResource MyImage}";
+                            Image img = new Image();
+                            img.Source = new BitmapImage(new Uri("pack://application:,,,/7x7;component/Resources/cross.png"));
+                            StackPanel pnl = new StackPanel();
+                            pnl.Children.Add(img);
+                            ((Button)this.FindName("button" + notAvailableSquares[i])).Content = pnl;
                         }
 
                         clickedButton.Opacity = 0.5;
@@ -58,14 +64,18 @@ namespace _7x7
                     {
                         clickedButton.Opacity = 1;
                         selectedButton = null;
-                    } else
+                        DeleteCrosses();
+                    } else if (!notAvailableSquares.Contains(int.Parse(clickedButton.Tag.ToString())))
                     {
                         newGame.makeMove(int.Parse(selectedButton.Tag.ToString()), int.Parse(clickedButton.Tag.ToString()));
                         clickedButton.Opacity = 1;
                         selectedButton.Opacity = 1;
                         selectedButton = null;
                         RefreshField();
+                        DeleteCrosses();
                     }
+
+                    
                 }
             } catch (InvalidCastException exception)
             {
@@ -99,6 +109,16 @@ namespace _7x7
             }
         }
 
+        private void DeleteCrosses()
+        {
+            for (int i = 0; i < newGame.squares.Length; i++)
+            {
+                if (newGame.squares[i] == null)
+                {
+                    ((Button)this.FindName("button" + i)).Content = null;
+                }
+            }
+        }
         
     }
 }
