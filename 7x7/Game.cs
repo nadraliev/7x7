@@ -8,7 +8,7 @@ namespace _7x7
 {
     public class Game
     {
-        public string[] squares;
+        public string[] squares;    //contains colors for each square
         public readonly string[] colors = new string[5]
         {
             "#f44336",
@@ -22,11 +22,12 @@ namespace _7x7
 
         public const int MAX_COUNT = 49;
 
-        public int deletedRows = 0;
+        public int deletedRows = 0; //score
+        private int howMuchGenerate = 3;
 
         public bool GameOver { get
             {
-                return countNullSquares() == 0;
+                return countNullSquares() == 0; //game over if no empty squares
             } }
         
         public Game()
@@ -34,27 +35,37 @@ namespace _7x7
             squares = new string[MAX_COUNT];
         } 
 
-        public void GenerateNewSquares(int count)
+        public void GenerateNewSquares()
         {
             Random random = new Random();
             int generated = 0;
             int place = 0;
             int color = 0;
-            while (generated < count && countNullSquares() != 0)
+            while (generated < howMuchGenerate && countNullSquares() != 0)    //try to generate if there are empty squares
             {
                 color = random.Next(0, colors.Length);
                 place = random.Next(0, MAX_COUNT);
-                if (squares[place] == null)
+                if (squares[place] == null) //check that generated place is empty
                 {
                     squares[place] = colors[color];
-                    List<int> forDelete = findRow(place);
-                    if (forDelete.Count != 0)
-                        deleteSquares(forDelete);
+
+                    findAndDeleteLinesFor(place);   //maybe generated sqares will make line
+
                     generated++;
                 }
             }
         }
 
+        private bool findAndDeleteLinesFor(int square)  //tells if smth was deleted
+        {
+            List<int> forDelete = findLine(square);
+            if (forDelete.Count != 0)
+            {
+                deleteSquares(forDelete);
+                return true;
+            }
+            else return false;
+        }
 
         private int countNullSquares()
         {
@@ -69,8 +80,8 @@ namespace _7x7
 
         public void findAvailableSquares(int square, ref List<int> result)
         {
-            
-            int[] offsets = new int[4] { -7, 1, 7, -1 };
+            //recursive method. it's like depth-first search in graphs
+            int[] offsets = new int[4] { -7, 1, 7, -1 };    //we can move up, right, down, left
             for (int i = 0; i < offsets.Length; i++)
             {
                 int newSquare = square + offsets[i];
@@ -91,7 +102,7 @@ namespace _7x7
             return square / 7 != (square + offset) / 7;
         }
 
-        public List<int> findNotAvailableSquares(int square)
+        public List<int> findNotAvailableSquaresFor(int square)
         {
             List<int> result = new List<int>();
             List<int> availableSquares = new List<int>();
@@ -111,27 +122,29 @@ namespace _7x7
                 squares[from] = null;
 
                 //check for rows
-                List<int> forDelete = findRow(to);
-                if (forDelete.Count != 0)
-                    deleteSquares(forDelete);
-                else GenerateNewSquares(3);
+                if (!findAndDeleteLinesFor(to))
+                    GenerateNewSquares();
             }
         }
 
-        public List<int> findRow(int square)    //returns numbers of squares that needs to be deleted
+        public List<int> findLine(int square)    //returns numbers of squares that needs to be deleted
         {
 
             //check for columns
             List<int> column = new List<int>();
             column.Add(square);
             int cursor = square;
+            int movedCursor;
             List<int> offsets = new List<int>() { 7, -7};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !column.Contains(cursor + offsets[i]))
+                movedCursor = cursor + offsets[i];
+                while (movedCursor >= 0 && movedCursor < 49 &&  //check that index not is out of range
+                    squares[movedCursor] == squares[square] &&   //check that squares have the same color
+                    !column.Contains(movedCursor))   //check that that square not already in the list
                 {
-                    cursor = cursor + offsets[i];
-                    column.Add(cursor);
+                    column.Add(movedCursor);
+                    cursor = movedCursor;
                 }
 
                 cursor = square;
@@ -144,10 +157,14 @@ namespace _7x7
             offsets = new List<int>() { 1, -1};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (!isNewLine(cursor, offsets[i]) && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !row.Contains(cursor + offsets[i]))
+                movedCursor = cursor + offsets[i];
+                while (!isNewLine(cursor, offsets[i]) &&    //do not include multi-line rows
+                    movedCursor >= 0 && movedCursor < 49 &&
+                    squares[movedCursor] == squares[square] &&
+                    !row.Contains(movedCursor))
                 {
-                    cursor = cursor + offsets[i];
-                    row.Add(cursor);
+                    row.Add(movedCursor);
+                    cursor = movedCursor;
                 }
 
                 cursor = square;
@@ -160,10 +177,14 @@ namespace _7x7
             offsets = new List<int>() {8, -8};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !rightDiagonal.Contains(cursor + offsets[i]))
+                movedCursor = cursor + offsets[i];
+                while (Math.Abs(cursor / 7 - (movedCursor) / 7) < 2 &&  //same as before. but for diagonal this means 2 transfers of a line
+                    movedCursor >= 0 && movedCursor < 49 &&
+                    squares[movedCursor] == squares[square] &&
+                    !rightDiagonal.Contains(movedCursor))
                 {
-                    cursor = cursor + offsets[i];
-                    rightDiagonal.Add(cursor);
+                    rightDiagonal.Add(movedCursor);
+                    cursor = movedCursor;
                 }
 
                 cursor = square;
@@ -176,10 +197,14 @@ namespace _7x7
             offsets = new List<int>() {6, -6 };
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square] && !leftDiagonal.Contains(cursor + offsets[i]))
+                movedCursor = cursor + offsets[i];
+                while (Math.Abs(cursor / 7 - (movedCursor) / 7) < 2 &&
+                    movedCursor >= 0 && movedCursor < 49 &&
+                    squares[movedCursor] == squares[square] &&
+                    !leftDiagonal.Contains(movedCursor))
                 {
-                    cursor = cursor + offsets[i];
-                    leftDiagonal.Add(cursor);
+                    leftDiagonal.Add(movedCursor);
+                    cursor = movedCursor;
                 }
 
                 cursor = square;

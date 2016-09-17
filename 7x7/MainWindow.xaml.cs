@@ -25,6 +25,7 @@ namespace _7x7
         Game newGame;
 
         Button selectedButton;  //currently selected button
+        int selectedButtonIndex;
 
         List<int> notAvailableSquares;
 
@@ -40,44 +41,37 @@ namespace _7x7
         {
             try {
                 Button clickedButton = (Button)e.OriginalSource;
-                if (selectedButton == null)
+                int clickedButtonIndex = int.Parse(clickedButton.Tag.ToString());
+
+                if (selectedButton == null) //previously no button was in selected mode
                 {
-                    if (newGame.squares[int.Parse(clickedButton.Tag.ToString())] != null)
+                    if (newGame.squares[clickedButtonIndex] != null)    //check that pressed button is not empty
                     {
-                        selectedButton = clickedButton;
-
-                        notAvailableSquares = newGame.findNotAvailableSquares(int.Parse(selectedButton.Tag.ToString()));
-                        for (int i = 0; i < notAvailableSquares.Count; i++)
-                        {
-                            Image img = new Image();
-                            img.Source = new BitmapImage(new Uri("pack://application:,,,/7x7;component/Resources/cross.png"));
-                            StackPanel pnl = new StackPanel();
-                            pnl.Children.Add(img);
-                            ((Button)this.FindName("button" + notAvailableSquares[i])).Content = pnl;
-                        }
-
-                        clickedButton.Opacity = 0.5;
+                        SelectSquare(clickedButton);    //set button to selected
                     }
                 } else
                 {
-                    if (selectedButton == clickedButton)
+                    selectedButtonIndex = int.Parse(selectedButton.Tag.ToString());
+
+                    if (selectedButton == clickedButton)    //user pressed the same button two times
                     {
-                        clickedButton.Opacity = 1;
+                        clickedButton.Opacity = 1;  //just reset selection
                         selectedButton = null;
                         DeleteCrosses();
-                    } else if (!notAvailableSquares.Contains(int.Parse(clickedButton.Tag.ToString())))
+                    } else if (!notAvailableSquares.Contains(clickedButtonIndex))   //check that pressed button is available
                     {
-                        newGame.makeMove(int.Parse(selectedButton.Tag.ToString()), int.Parse(clickedButton.Tag.ToString()));
+                        newGame.makeMove(selectedButtonIndex, clickedButtonIndex);
                         clickedButton.Opacity = 1;
                         selectedButton.Opacity = 1;
                         selectedButton = null;
                         DeleteCrosses();
 
-                        score.Content = newGame.deletedRows.ToString();
-                        if (newGame.GameOver)
+                        score.Content = newGame.deletedRows.ToString(); //update score label
+
+                        if (newGame.GameOver)   //check on game over
                         {
                             MessageBox.Show("Game over");
-                            newGame = new Game();
+                            newGame = new Game();   //start new game if game over
                         }
                         RefreshField();
                     }
@@ -97,8 +91,27 @@ namespace _7x7
                 ((Button)buttons[i]).Tag = i.ToString();  //set tags for buttons here because i'm lazy to do it manually in XAML
 
 
-            newGame.GenerateNewSquares(3);
+            newGame.GenerateNewSquares();  //start new game as soon as windows loads
             RefreshField();
+        }
+
+        private void SelectSquare(Button clickedButton)
+        {
+            selectedButton = clickedButton;
+            selectedButtonIndex = int.Parse(selectedButton.Tag.ToString());
+
+            notAvailableSquares = newGame.findNotAvailableSquaresFor(selectedButtonIndex);
+
+            for (int i = 0; i < notAvailableSquares.Count; i++)
+            {
+                Image img = new Image();
+                img.Source = new BitmapImage(new Uri("pack://application:,,,/7x7;component/Resources/cross.png"));
+                StackPanel pnl = new StackPanel();
+                pnl.Children.Add(img);
+                ((Button)this.FindName("button" + notAvailableSquares[i])).Content = pnl;   //put cross to button
+            }
+
+            clickedButton.Opacity = 0.5;    //little fade out for selected button
         }
 
         private void RefreshField()
@@ -108,10 +121,10 @@ namespace _7x7
                 string color = newGame.squares[i];
                 if (color != null)
                 {
-                    ((Button)this.FindName("button" + i)).Background = (SolidColorBrush)new BrushConverter().ConvertFromString(color);
+                    ((Button)this.FindName("button" + i)).Background = (SolidColorBrush)new BrushConverter().ConvertFromString(color);  //set color for button<number>
                 } else
                 {
-                    ((Button)this.FindName("button" + i)).Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFDDDDDD");
+                    ((Button)this.FindName("button" + i)).Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFDDDDDD");    //reset color
                 }
             }
         }
@@ -120,7 +133,7 @@ namespace _7x7
         {
             for (int i = 0; i < newGame.squares.Length; i++)
             {
-                ((Button)this.FindName("button" + i)).Content = null;
+                ((Button)this.FindName("button" + i)).Content = null;   //delete cross from button
             }
         }
         
