@@ -9,11 +9,13 @@ namespace _7x7
     public class Game
     {
         public string[] squares;
-        public readonly string[] colors = new string[3]
+        public readonly string[] colors = new string[5]
         {
-            "#FF0000",
-            "#00FF00",
-            "#0000FF"
+            "#f44336",
+            "#9c27b0",
+            "#2196f3",
+            "#4caf50",
+            "#ff9800"
         };
 
 
@@ -33,10 +35,10 @@ namespace _7x7
             int generated = 0;
             int place = 0;
             int color = 0;
-            while (generated < count)
+            while (generated < count && countNullSquares() != 0)
             {
-                place = random.Next(0, MAX_COUNT);
                 color = random.Next(0, colors.Length);
+                place = random.Next(0, MAX_COUNT);
                 if (squares[place] == null)
                 {
                     squares[place] = colors[color];
@@ -46,6 +48,18 @@ namespace _7x7
                     generated++;
                 }
             }
+        }
+
+
+        private int countNullSquares()
+        {
+            int result = 0;
+            for (int i = 0; i < MAX_COUNT; i++)
+            {
+                if (squares[i] == null)
+                    result++;
+            }
+            return result;
         }
 
         public void findAvailableSquares(int square, ref List<int> result)
@@ -125,7 +139,7 @@ namespace _7x7
             offsets = new List<int>() { 1, -1};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
+                while (!isNewLine(cursor, offsets[i]) && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
                 {
                     cursor = cursor + offsets[i];
                     row.Add(cursor);
@@ -134,27 +148,45 @@ namespace _7x7
                 cursor = square;
             }
 
-            //check for diagonals
-            List<int> diagonal = new List<int>();
-            diagonal.Add(square);
+            //check for right diagonals
+            List<int> rightDiagonal = new List<int>();
+            rightDiagonal.Add(square);
             cursor = square;
-            offsets = new List<int>() {8, -8, 6, -6 };
+            offsets = new List<int>() {8, -8};
             for (int i = 0; i < offsets.Count; i++)
             {
-                while (cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
+                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
                 {
                     cursor = cursor + offsets[i];
-                    diagonal.Add(cursor);
+                    rightDiagonal.Add(cursor);
                 }
 
                 cursor = square;
             }
 
+            //check for left diagonals
+            List<int> leftDiagonal = new List<int>();
+            leftDiagonal.Add(square);
+            cursor = square;
+            offsets = new List<int>() {6, -6 };
+            for (int i = 0; i < offsets.Count; i++)
+            {
+                while (Math.Abs(cursor / 7 - (cursor + offsets[i]) / 7) < 2 && cursor + offsets[i] >= 0 && cursor + offsets[i] < 49 && squares[cursor + offsets[i]] == squares[square])
+                {
+                    cursor = cursor + offsets[i];
+                    leftDiagonal.Add(cursor);
+                }
+
+                cursor = square;
+            }
+
+
             //add to result columns,rows,diagonals more than four squares
             List<int> result = new List<int>();
             if (column.Count >= 4) result.AddRange(column);
             if (row.Count >= 4) result.AddRange(row);
-            if (diagonal.Count >= 4) result.AddRange(diagonal);
+            if (rightDiagonal.Count >= 4) result.AddRange(rightDiagonal);
+            if (leftDiagonal.Count >= 4) result.AddRange(leftDiagonal);
 
             return result;
         }
@@ -163,7 +195,9 @@ namespace _7x7
         {
             for (int i = 0; i < forDelete.Count; i++)
             {
+                Console.WriteLine(forDelete[i] + " " + squares[forDelete[i]]);
                 squares[forDelete[i]] = null;
+                
             }
         }
 

@@ -113,10 +113,7 @@ namespace _7x7
         {
             for (int i = 0; i < newGame.squares.Length; i++)
             {
-                if (newGame.squares[i] == null)
-                {
-                    ((Button)this.FindName("button" + i)).Content = null;
-                }
+                ((Button)this.FindName("button" + i)).Content = null;
             }
         }
         
