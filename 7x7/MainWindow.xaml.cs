@@ -71,10 +71,15 @@ namespace _7x7
                         clickedButton.Opacity = 1;
                         selectedButton.Opacity = 1;
                         selectedButton = null;
-                        RefreshField();
                         DeleteCrosses();
 
                         score.Content = newGame.deletedRows.ToString();
+                        if (newGame.GameOver)
+                        {
+                            MessageBox.Show("Game over");
+                            newGame = new Game();
+                        }
+                        RefreshField();
                     }
 
                     

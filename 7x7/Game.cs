@@ -23,6 +23,11 @@ namespace _7x7
         public const int MAX_COUNT = 49;
 
         public int deletedRows = 0;
+
+        public bool GameOver { get
+            {
+                return countNullSquares() == 0;
+            } }
         
         public Game()
         {
