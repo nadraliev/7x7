@@ -28,7 +28,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="local:SquareButton">
                         <Border Name="border" Background="{TemplateBinding Background}">
-                            <Rectangle Name="foregroundRect" Fill="#FFDDDDDD" Width="52" Height="52" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Grid>
+                                <Image Name="cross" Source="Resources/cross.png" Visibility="Hidden"/>
+                                <Rectangle  Name="foregroundRect" Fill="#FFDDDDDD" Width="52" Height="52" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
                         </Border>
 
                         <ControlTemplate.Triggers>

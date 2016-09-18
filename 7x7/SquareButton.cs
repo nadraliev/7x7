@@ -49,5 +49,24 @@ namespace _7x7
 
             }
         }
+
+        private bool crossVisible = false;
+        public bool CrossVisible
+        {
+            get
+            {
+                return crossVisible;
+            }
+            set
+            {
+                if (value)
+                    ((Image)Template.FindName("cross", this)).Visibility = System.Windows.Visibility.Visible;
+                else
+                    ((Image)Template.FindName("cross", this)).Visibility = System.Windows.Visibility.Hidden;
+                crossVisible = value;
+            }
+        }
+
+        
     }
 }

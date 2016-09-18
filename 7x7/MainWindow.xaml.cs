@@ -108,11 +108,8 @@ namespace _7x7
 
             for (int i = 0; i < notAvailableSquares.Count; i++)
             {
-                Image img = new Image();
-                img.Source = new BitmapImage(new Uri("pack://application:,,,/7x7;component/Resources/cross.png"));
-                StackPanel pnl = new StackPanel();
-                pnl.Children.Add(img);
-                ((SquareButton)this.FindName("button" + notAvailableSquares[i])).Content = pnl;   //put cross to button
+                
+                ((SquareButton)this.FindName("button" + notAvailableSquares[i])).CrossVisible = true;   //put cross to button
             }
 
             clickedButton.Opacity = 0.5;    //little fade out for selected button
@@ -137,7 +134,7 @@ namespace _7x7
         {
             for (int i = 0; i < newGame.squares.Length; i++)
             {
-                ((Button)this.FindName("button" + i)).Content = null;   //delete cross from button
+                ((SquareButton)this.FindName("button" + i)).CrossVisible = false;   //delete cross from button
             }
         }
 
@@ -151,6 +148,8 @@ namespace _7x7
             coming.Content = newGame.howMuchGenerate.ToString();
             DeleteCrosses();
             RefreshField();
+            selectedButton = null;
+            selectedButtonIndex = -1;
         }
 
         private void startNewGame_Click(object sender, RoutedEventArgs e)
