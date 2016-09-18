@@ -27,6 +27,7 @@ namespace _7x7
 
         private int deletedRows = 0;
         private int forNextLevel = 40;
+        private int increaseOnNextDif = 35;
 
         public int Score { get { return deletedRows; }
             private set
@@ -49,11 +50,14 @@ namespace _7x7
         {
             howMuchGenerate++;
             if (forNextLevel > 10)
-                forNextLevel += forNextLevel-5;
+            {
+                forNextLevel += increaseOnNextDif;
+                increaseOnNextDif -= 5;
+            }
             level++;
         }
 
-    public void GenerateNewSquares()
+        public void GenerateNewSquares()
         {
             Random random = new Random();
             int generated = 0;

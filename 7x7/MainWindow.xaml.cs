@@ -23,9 +23,10 @@ namespace _7x7
     {
 
         Game newGame;
-
-        Button selectedButton;  //currently selected button
+        
+        SquareButton selectedButton;  //currently selected button
         int selectedButtonIndex;
+        public static string buttonEmptyColor = "#FFDDDDDD";
 
         List<int> notAvailableSquares;
 
@@ -40,7 +41,7 @@ namespace _7x7
         private void WrapPanel_Click(object sender, RoutedEventArgs e)
         {
             try {
-                Button clickedButton = (Button)e.OriginalSource;
+                SquareButton clickedButton = (SquareButton)e.OriginalSource;
                 int clickedButtonIndex = int.Parse(clickedButton.Tag.ToString());
 
                 if (selectedButton == null) //previously no button was in selected mode
@@ -94,15 +95,15 @@ namespace _7x7
                 ((Button)buttons[i]).Tag = i.ToString();  //set tags for buttons here because i'm lazy to do it manually in XAML
 
 
-            newGame.GenerateNewSquares();  //start new game as soon as windows loads
+            StartNewGame();  //start new game as soon as windows loads
             RefreshField();
         }
 
-        private void SelectSquare(Button clickedButton)
+        private void SelectSquare(SquareButton clickedButton)
         {
             selectedButton = clickedButton;
             selectedButtonIndex = int.Parse(selectedButton.Tag.ToString());
-
+            
             notAvailableSquares = newGame.findNotAvailableSquaresFor(selectedButtonIndex);
 
             for (int i = 0; i < notAvailableSquares.Count; i++)
@@ -111,7 +112,7 @@ namespace _7x7
                 img.Source = new BitmapImage(new Uri("pack://application:,,,/7x7;component/Resources/cross.png"));
                 StackPanel pnl = new StackPanel();
                 pnl.Children.Add(img);
-                ((Button)this.FindName("button" + notAvailableSquares[i])).Content = pnl;   //put cross to button
+                ((SquareButton)this.FindName("button" + notAvailableSquares[i])).Content = pnl;   //put cross to button
             }
 
             clickedButton.Opacity = 0.5;    //little fade out for selected button
@@ -124,10 +125,10 @@ namespace _7x7
                 string color = newGame.squares[i];
                 if (color != null)
                 {
-                    ((Button)this.FindName("button" + i)).Background = (SolidColorBrush)new BrushConverter().ConvertFromString(color);  //set color for button<number>
+                    ((SquareButton)this.FindName("button" + i)).Background = color;  //set color for button<number>
                 } else
                 {
-                    ((Button)this.FindName("button" + i)).Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFDDDDDD");    //reset color
+                    ((SquareButton)this.FindName("button" + i)).Background = buttonEmptyColor;    //reset color
                 }
             }
         }
@@ -148,6 +149,7 @@ namespace _7x7
             level.Content = newGame.level.ToString();   //update level label
             toNextLevel.Content = newGame.LinesToGoToNextLevel.ToString();
             coming.Content = newGame.howMuchGenerate.ToString();
+            DeleteCrosses();
             RefreshField();
         }
 
@@ -155,5 +157,6 @@ namespace _7x7
         {
             StartNewGame();
         }
+
     }
 }
