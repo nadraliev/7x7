@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:_7x7"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="600"
-        ResizeMode="NoResize" Loaded="Window_Loaded">
+        ResizeMode="CanMinimize" Loaded="Window_Loaded">
     <Window.Resources>
 
         
